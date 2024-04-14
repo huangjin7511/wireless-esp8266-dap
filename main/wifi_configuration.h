@@ -18,7 +18,8 @@ static struct {
     {.ssid = "OTA", .password = "12345678"},
     {.ssid = "DAP", .password = "12345678"},
     // Add your WAP like this:
-    // {.ssid = "your ssid", .password = "your password"},
+    {.ssid = "MYHOME", .password = "87654321"},
+    {.ssid = "ot99", .password = "87654321"},
 };
 
 #define WIFI_LIST_SIZE (sizeof(wifi_list) / sizeof(wifi_list[0]))
