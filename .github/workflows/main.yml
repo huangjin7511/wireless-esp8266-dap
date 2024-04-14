@@ -13,7 +13,7 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-18.04
     continue-on-error: false
     strategy:
       matrix:
@@ -21,7 +21,7 @@ jobs:
 
 
     steps:
-    - uses: actions/checkout@v4
+    - uses: actions/checkout@v2
       with:
         submodules: recursive
 
@@ -29,10 +29,8 @@ jobs:
       if: matrix.target-hardware == 'esp8266'
       run: |
         sudo apt update
-        sudo apt install -y gcc git wget make libncurses-dev flex bison python python-setuptools python3-serial ninja-build
+        sudo apt install -y gcc git wget make libncurses-dev flex bison python python-setuptools python-serial ninja-build
         wget https://dl.espressif.com/dl/xtensa-lx106-elf-linux64-1.22.0-100-ge567ec7-5.2.0.tar.gz
-        curl https://bootstrap.pypa.io/pip/2.7/get-pip.py -o get-pip.py
-        python get-pip.py
 
     - name: install
       if: matrix.target-hardware == 'esp8266'
@@ -72,7 +70,6 @@ jobs:
       if: matrix.target-hardware == 'esp8266'
       run: |
         git clone https://github.com/espressif/esptool.git
-        git -C ./esptool/ checkout tags/v4.6.2 -b merge_wirless_bin
         sudo python3 ./esptool/esptool.py --chip ${{ matrix.target-hardware }} merge_bin  -o build/wireless_esp_dap_full.bin 0x0 build/bootloader/bootloader.bin 0x8000 build/partition_table/partition-table.bin 0x10000 build/wireless_esp_dap.bin
         sudo mv build/wireless_esp_dap.bin build/wireless_esp_dap_app.bin
 
@@ -80,7 +77,6 @@ jobs:
       if: matrix.target-hardware == 'esp32'
       run: |
         git clone https://github.com/espressif/esptool.git
-        git -C ./esptool/ checkout tags/v4.6.2 -b merge_wirless_bin
         sudo python3 ./esptool/esptool.py --chip ${{ matrix.target-hardware }} merge_bin  -o build/wireless_esp_dap_full.bin 0x1000 build/bootloader/bootloader.bin 0x8000 build/partition_table/partition-table.bin 0x10000 build/wireless_esp_dap.bin
         sudo mv build/wireless_esp_dap.bin build/wireless_esp_dap_app.bin
 
@@ -88,7 +84,6 @@ jobs:
       if: matrix.target-hardware == 'esp32c3'
       run: |
         git clone https://github.com/espressif/esptool.git
-        git -C ./esptool/ checkout tags/v4.6.2 -b merge_wirless_bin
         sudo python3 ./esptool/esptool.py --chip ${{ matrix.target-hardware }} merge_bin  -o build/wireless_esp_dap_full.bin 0x0 build/bootloader/bootloader.bin 0x8000 build/partition_table/partition-table.bin 0x10000 build/wireless_esp_dap.bin
         sudo mv build/wireless_esp_dap.bin build/wireless_esp_dap_app.bin
 
