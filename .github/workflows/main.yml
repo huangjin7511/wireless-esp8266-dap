@@ -13,7 +13,7 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-latest
     continue-on-error: false
     strategy:
       matrix:
@@ -24,18 +24,22 @@ jobs:
     - uses: actions/checkout@v2
       with:
         submodules: recursive
-
+    - uses: esp-rs/xtensa-toolchain@v1.1     
+      with:
+        default: true
+        ldproxy: false        
+          
     - name: before_install
       if: matrix.target-hardware == 'esp8266'
       run: |
         sudo apt update
         sudo apt install -y gcc git wget make libncurses-dev flex bison python python-setuptools python-serial ninja-build
-        wget https://dl.espressif.com/dl/xtensa-lx106-elf-linux64-1.22.0-100-ge567ec7-5.2.0.tar.gz
+        #wget https://dl.espressif.com/dl/xtensa-lx106-elf-linux64-1.22.0-100-ge567ec7-5.2.0.tar.gz
 
     - name: install
       if: matrix.target-hardware == 'esp8266'
       run: |
-        tar -xzf ./xtensa-lx106-elf-linux64-1.22.0-100-ge567ec7-5.2.0.tar.gz
+        #tar -xzf ./xtensa-lx106-elf-linux64-1.22.0-100-ge567ec7-5.2.0.tar.gz
         python -m pip install --user -r ./ESP8266_RTOS_SDK/requirements.txt
 
     - name: script
