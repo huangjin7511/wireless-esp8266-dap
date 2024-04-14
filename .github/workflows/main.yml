@@ -36,7 +36,6 @@ jobs:
       if: matrix.target-hardware == 'esp8266'
       run: |
         tar -xzf ./xtensa-lx106-elf-linux64-1.22.0-100-ge567ec7-5.2.0.tar.gz
-        python3 -m pip install intelhex
         python3 -m pip install --user -r ./ESP8266_RTOS_SDK/requirements.txt
 
     - name: script
@@ -71,6 +70,7 @@ jobs:
       if: matrix.target-hardware == 'esp8266'
       run: |
         git clone https://github.com/espressif/esptool.git
+        python3 -m pip install intelhex
         sudo python3 ./esptool/esptool.py --chip ${{ matrix.target-hardware }} merge_bin  -o build/wireless_esp_dap_full.bin 0x0 build/bootloader/bootloader.bin 0x8000 build/partition_table/partition-table.bin 0x10000 build/wireless_esp_dap.bin
         sudo mv build/wireless_esp_dap.bin build/wireless_esp_dap_app.bin
 
@@ -78,6 +78,7 @@ jobs:
       if: matrix.target-hardware == 'esp32'
       run: |
         git clone https://github.com/espressif/esptool.git
+        python3 -m pip install intelhex
         sudo python3 ./esptool/esptool.py --chip ${{ matrix.target-hardware }} merge_bin  -o build/wireless_esp_dap_full.bin 0x1000 build/bootloader/bootloader.bin 0x8000 build/partition_table/partition-table.bin 0x10000 build/wireless_esp_dap.bin
         sudo mv build/wireless_esp_dap.bin build/wireless_esp_dap_app.bin
 
@@ -85,6 +86,7 @@ jobs:
       if: matrix.target-hardware == 'esp32c3'
       run: |
         git clone https://github.com/espressif/esptool.git
+        python3 -m pip install intelhex
         sudo python3 ./esptool/esptool.py --chip ${{ matrix.target-hardware }} merge_bin  -o build/wireless_esp_dap_full.bin 0x0 build/bootloader/bootloader.bin 0x8000 build/partition_table/partition-table.bin 0x10000 build/wireless_esp_dap.bin
         sudo mv build/wireless_esp_dap.bin build/wireless_esp_dap_app.bin
 
