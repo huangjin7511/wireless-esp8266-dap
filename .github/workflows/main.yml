@@ -29,14 +29,14 @@ jobs:
       if: matrix.target-hardware == 'esp8266'
       run: |
         sudo apt update
-        sudo apt install -y gcc git wget make libncurses-dev flex bison python python-setuptools python3-serial ninja-build
+        sudo apt install -y gcc git wget make libncurses-dev flex bison python3 python3-setuptools python3-serial ninja-build
         wget https://dl.espressif.com/dl/xtensa-lx106-elf-linux64-1.22.0-100-ge567ec7-5.2.0.tar.gz
 
     - name: install
       if: matrix.target-hardware == 'esp8266'
       run: |
         tar -xzf ./xtensa-lx106-elf-linux64-1.22.0-100-ge567ec7-5.2.0.tar.gz
-        python -m pip install --user -r ./ESP8266_RTOS_SDK/requirements.txt
+        python3 -m pip install --user -r ./ESP8266_RTOS_SDK/requirements.txt
 
     - name: script
       id: script
@@ -45,8 +45,8 @@ jobs:
         export IDF_PATH=$PWD/ESP8266_RTOS_SDK
         export PATH="$PATH:$PWD/xtensa-lx106-elf/bin"
         echo "FIRMWARE=$PWD/build" >> $GITHUB_ENV
-        python ./idf.py fullclean
-        python ./idf.py build
+        python3 ./idf.py fullclean
+        python3 ./idf.py build
         echo "::set-output name=status::success"
 
     # - name: Generate release tag
